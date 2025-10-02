@@ -66,11 +66,11 @@ const Home = () => {
               <div className="image-placeholder">
                 <span>Your Photo</span>
               </div>
-              <div className="tech-stack">
-                <span>React</span>
-                <span>Node.js</span>
-                <span>MongoDB</span>
-              </div>
+            </div>
+            <div className="tech-stack">
+              <span>React</span>
+              <span>Node.js</span>
+              <span>MongoDB</span>
             </div>
           </motion.div>
         </div>
