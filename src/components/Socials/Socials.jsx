@@ -4,27 +4,27 @@ const Socials = () => {
   const socialLinks = [
     {
       name: "GitHub",
-      url: "https://github.com/adityasingh",
+      url: "https://github.com/adityahacks123",
       icon: "🐙",
       description: "Check out my code repositories"
     },
     {
       name: "LinkedIn",
-      url: "https://linkedin.com/in/adityasingh",
+      url: "https://www.linkedin.com/in/aditya-singh-ba42b2310",
       icon: "💼",
       description: "Connect with me professionally"
     },
     {
-      name: "Codolio",
-      url: "https://codolio.com/adityasingh",
-      icon: "👨‍💻",
-      description: "View my developer portfolio"
-    },
-    {
       name: "LeetCode",
-      url: "https://leetcode.com/adityasingh",
+      url: "https://leetcode.com/u/adityahacks123",
       icon: "💻",
       description: "View my coding solutions"
+    },
+    {
+      name: "Codolio",
+      url: "https://codolio.com/profile/adityahacks123",
+      icon: "👨‍💻",
+      description: "View my complete profile - coding, web development & more"
     },
     {
       name: "Resume",
