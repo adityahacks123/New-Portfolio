@@ -2,54 +2,65 @@ import { useState } from 'react';
 import './Contact.css';
 
 const Contact = () => {
-  const [activeTab, setActiveTab] = useState('resume');
+  const [isDownloading, setIsDownloading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   
   const socialLinks = [
-    { name: 'GitHub', url: 'https://github.com/adityasingh', icon: 'github' },
-    { name: 'LinkedIn', url: 'https://linkedin.com/in/adityasingh', icon: 'linkedin' },
-    { name: 'Twitter', url: 'https://twitter.com/adityasingh', icon: 'twitter' },
+    { name: 'GitHub', url: 'https://github.com/adityahacks123', icon: 'github' },
+    { name: 'LinkedIn', url: 'https://www.linkedin.com/in/aditya-singh-ba42b2310', icon: 'linkedin' },
+    { name: 'LeetCode', url: 'https://leetcode.com/u/adityahacks123', icon: 'code' },
+    { name: 'Codolio', url: 'https://codolio.com/profile/adityahacks123', icon: 'laptop-code' }
   ];
 
-  const resumeSections = [
-    {
-      title: 'Experience',
-      items: [
-        {
-          role: 'Frontend Developer',
-          company: 'Tech Solutions Inc.',
-          period: '2022 - Present',
-          description: 'Developed and maintained responsive web applications using React and modern JavaScript.'
-        },
-        {
-          role: 'UI/UX Designer',
-          company: 'Digital Creations',
-          period: '2020 - 2022',
-          description: 'Designed and prototyped user interfaces for web and mobile applications.'
-        }
-      ]
-    },
-    {
-      title: 'Education',
-      items: [
-        {
-          degree: 'B.Tech in Computer Science',
-          institution: 'Delhi Technological University',
-          period: '2016 - 2020'
-        }
-      ]
-    },
-    {
-      title: 'Skills',
-      items: [
-        { name: 'React', level: '90%' },
-        { name: 'JavaScript', level: '85%' },
-        { name: 'HTML/CSS', level: '95%' },
-        { name: 'Node.js', level: '75%' },
-        { name: 'UI/UX Design', level: '80%' }
-      ]
-    }
-  ];
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate form submission
+    setTimeout(() => {
+      console.log('Form submitted:', formData);
+      setIsSubmitting(false);
+      alert('Message sent successfully!');
+      setFormData({ name: '', email: '', message: '' });
+    }, 1500);
+  };
+
+  const handleDownloadCV = () => {
+    setIsDownloading(true);
+    
+    // Create a temporary link element
+    const link = document.createElement('a');
+    
+    // Replace this path with the actual path to your CV file in the public folder
+    const cvPath = '/Aditya_Singh_Resume.pdf'; // Make sure the file exists in the public folder
+    
+    // Set the link's properties
+    link.href = cvPath;
+    link.download = 'Aditya_Singh_Resume.pdf'; // Name of the downloaded file
+    
+    // Append to body, click and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    
+    // Reset the loading state after a short delay
+    setTimeout(() => {
+      setIsDownloading(false);
+    }, 1000);
+  };
+  
   return (
     <div className="lets-connect">
       <div className="connect-grid">
@@ -58,12 +69,15 @@ const Contact = () => {
           <h2>Let's Connect</h2>
           <p>Feel free to reach out for collaborations or just a friendly hello!</p>
           
-          <form className="contact-form">
+          <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <input
                 type="text"
+                name="name"
                 placeholder="Your Name"
                 className="form-input"
+                value={formData.name}
+                onChange={handleInputChange}
                 required
               />
             </div>
@@ -71,30 +85,48 @@ const Contact = () => {
             <div className="form-group">
               <input
                 type="email"
+                name="email"
                 placeholder="Your Email"
                 className="form-input"
+                value={formData.email}
+                onChange={handleInputChange}
                 required
               />
             </div>
             
             <div className="form-group">
               <textarea
+                name="message"
                 placeholder="Your Message"
                 rows="4"
                 className="form-textarea"
+                value={formData.message}
+                onChange={handleInputChange}
                 required
               ></textarea>
             </div>
             
-            <button type="submit" className="submit-btn">Send Message</button>
+            <button 
+              type="submit" 
+              className="submit-btn"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="spinner"></span>
+                  Sending...
+                </>
+              ) : 'Send Message'}
+            </button>
           </form>
           
+          {/* Social Links */}
           <div className="social-links">
             {socialLinks.map((social, index) => (
               <a 
-                key={index} 
-                href={social.url} 
-                target="_blank" 
+                key={index}
+                href={social.url}
+                target="_blank"
                 rel="noopener noreferrer"
                 className="social-link"
                 aria-label={social.name}
@@ -105,72 +137,36 @@ const Contact = () => {
           </div>
         </div>
         
-        {/* Right Section - Resume */}
-        <div className="resume-section">
-          <div className="resume-tabs">
+        {/* Right Section - Simple Download CV */}
+        <div className="cv-section">
+          <div className="cv-card">
+            <div className="cv-icon">
+              <i className="fas fa-file-pdf"></i>
+            </div>
+            <h3>Download My CV</h3>
+            <p>Get a copy of my professional resume in PDF format</p>
+            <div className="file-info">
+              <i className="fas fa-file-pdf"></i>
+              <span>Aditya_Singh_Resume.pdf</span>
+              <span className="file-size">(2.4 MB)</span>
+            </div>
             <button 
-              className={`tab-btn ${activeTab === 'resume' ? 'active' : ''}`}
-              onClick={() => setActiveTab('resume')}
+              className={`download-cv-btn ${isDownloading ? 'downloading' : ''}`}
+              onClick={handleDownloadCV}
+              disabled={isDownloading}
             >
-              Resume
-            </button>
-            <button 
-              className={`tab-btn ${activeTab === 'cv' ? 'active' : ''}`}
-              onClick={() => setActiveTab('cv')}
-            >
-              Download CV
+              {isDownloading ? (
+                <>
+                  <i className="fas fa-spinner fa-spin"></i>
+                  Downloading...
+                </>
+              ) : (
+                <>
+                  <i className="fas fa-download"></i> Download CV
+                </>
+              )}
             </button>
           </div>
-          
-          {activeTab === 'resume' ? (
-            <div className="resume-content">
-              {resumeSections.map((section, index) => (
-                <div key={index} className="resume-section-item">
-                  <h3>{section.title}</h3>
-                  {section.items.map((item, i) => (
-                    <div key={i} className="resume-item">
-                      {item.role && (
-                        <div className="resume-header">
-                          <h4>{item.role}</h4>
-                          {item.company && <span className="company">{item.company}</span>}
-                          {item.period && <span className="period">{item.period}</span>}
-                        </div>
-                      )}
-                      {item.degree && (
-                        <div className="resume-header">
-                          <h4>{item.degree}</h4>
-                          <span className="institution">{item.institution}</span>
-                          <span className="period">{item.period}</span>
-                        </div>
-                      )}
-                      {item.name && (
-                        <div className="skill-item">
-                          <span className="skill-name">{item.name}</span>
-                          <div className="skill-bar">
-                            <div 
-                              className="skill-level" 
-                              style={{ width: item.level }}
-                            ></div>
-                          </div>
-                        </div>
-                      )}
-                      {item.description && <p>{item.description}</p>}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ) : (
-            <div className="cv-download">
-              <div className="cv-preview">
-                <i className="fas fa-file-pdf"></i>
-                <span>My_Resume.pdf</span>
-              </div>
-              <button className="download-btn">
-                <i className="fas fa-download"></i> Download CV
-              </button>
-            </div>
-          )}
         </div>
       </div>
     </div>
