@@ -37,8 +37,8 @@ const Socials = () => {
   return (
     <div className="socials-page">
       <div className="socials-container">
-        <h2 className="socials-title">Let's Connect</h2>
-        <p className="socials-subtitle">Find me on these platforms</p>
+        <h2 className="socials-title">My Coding Profiles</h2>
+        <p className="socials-subtitle">Connect with me across platforms</p>
         <div className="socials-grid">
           {socialLinks.map((social, index) => (
             <a 
