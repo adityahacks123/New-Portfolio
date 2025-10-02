@@ -15,10 +15,10 @@ const Socials = () => {
       description: "Connect with me professionally"
     },
     {
-      name: "Twitter",
-      url: "https://twitter.com/adityasingh",
-      icon: "🐦",
-      description: "Follow my tech journey"
+      name: "Codolio",
+      url: "https://codolio.com/adityasingh",
+      icon: "👨‍💻",
+      description: "View my developer portfolio"
     },
     {
       name: "LeetCode",
@@ -27,16 +27,10 @@ const Socials = () => {
       description: "View my coding solutions"
     },
     {
-      name: "Email",
-      url: "mailto:aditya@example.com",
-      icon: "📧",
-      description: "Send me a message"
-    },
-    {
-      name: "Portfolio",
-      url: "#",
-      icon: "🌐",
-      description: "Explore my work"
+      name: "Resume",
+      url: "/resume.pdf",
+      icon: "📄",
+      description: "Download my resume"
     }
   ];
 
