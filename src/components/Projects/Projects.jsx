@@ -26,30 +26,44 @@ const Projects = () => {
   ];
 
   return (
-    <div className="projects-page">
+    <section id="projects" className="projects-section">
       <div className="projects-container">
-        <h2 className="projects-title">My Projects</h2>
+        <h2 className="section-title">My Projects</h2>
         <div className="projects-grid">
           {projects.map((project, index) => (
-            <div key={index} className="project-card">
-              <div className="project-content">
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
+            <article key={index} className="project-card">
+              <div className="card-content">
+                <h3 className="project-title">{project.title}</h3>
+                <p className="project-description">{project.description}</p>
                 <div className="tech-stack">
                   {project.techStack.map((tech, techIndex) => (
                     <span key={techIndex} className="tech-tag">{tech}</span>
                   ))}
                 </div>
-                <div className="project-links">
-                  <a href={project.liveLink} className="project-link">Live Demo</a>
-                  <a href={project.githubLink} className="project-link">GitHub</a>
+                <div className="project-actions">
+                  <a 
+                    href={project.liveLink} 
+                    className="project-link primary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Live Demo
+                  </a>
+                  <a 
+                    href={project.githubLink} 
+                    className="project-link secondary"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    GitHub
+                  </a>
                 </div>
               </div>
-            </div>
+            </article>
           ))}
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
