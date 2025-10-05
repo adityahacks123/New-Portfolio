@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import Landing from './components/Landing/Landing';
 import Home from './components/Home/Home';
 import Projects from './components/Projects/Projects';
 import Skills from './components/Skills/Skills';
 import Socials from './components/Socials/Socials';
 import Contact from './components/Contact/Contact';
+import Navigation from './components/Navigation/Navigation';
 import './styles/global.css';
 import './App.css';
 
@@ -39,21 +40,31 @@ function App() {
       for (const section of sections) {
         const element = document.getElementById(section);
         if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+          const rect = element.getBoundingClientRect();
+          const elementTop = rect.top + window.pageYOffset;
+          const elementBottom = elementTop + rect.height;
+          
+          if (scrollPosition >= elementTop - 200 && scrollPosition < elementBottom - 200) {
             setActiveSection(section);
             break;
           }
         }
       }
     };
-
+    
+    // Add scroll event listener
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    
+    // Initial check
+    handleScroll();
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
   }, []);
 
-  // Smooth scroll to section
-  const scrollToSection = (sectionId) => {
+  // Smooth scroll to section with callback
+  const scrollToSection = useCallback((sectionId) => {
     if (isScrolling.current) return;
     
     const element = document.getElementById(sectionId);
@@ -61,9 +72,13 @@ function App() {
       isScrolling.current = true;
       setActiveSection(sectionId);
       
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: 'smooth'
+      // Close mobile menu if open
+      document.body.classList.remove('menu-open');
+      
+      // Scroll to the element
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
       });
       
       if (scrollTimeout.current) {
@@ -74,7 +89,7 @@ function App() {
         isScrolling.current = false;
       }, 1000);
     }
-  };
+  }, []);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -105,6 +120,9 @@ function App() {
 
   return (
     <div className="app" ref={mainRef}>
+      {/* Navigation */}
+      <Navigation activeSection={activeSection} scrollToSection={scrollToSection} />
+      
       <div className="smooth-scroll">
         <section id="home" className="section">
           <Home />
@@ -125,18 +143,6 @@ function App() {
         <section id="contact" className="section">
           <Contact />
         </section>
-      </div>
-      
-      {/* Navigation Dots */}
-      <div className="page-indicator">
-        {['home', 'projects', 'skills', 'socials', 'contact'].map((section) => (
-          <button
-            key={section}
-            className={`dot ${activeSection === section ? 'active' : ''}`}
-            onClick={() => scrollToSection(section)}
-            aria-label={`Go to ${section}`}
-          />
-        ))}
       </div>
     </div>
   );
