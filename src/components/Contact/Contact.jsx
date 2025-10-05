@@ -8,7 +8,66 @@ const Contact = () => {
     email: '',
     message: ''
   });
+  
+  const [errors, setErrors] = useState({});
+  const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Input limits
+  const limits = {
+    name: { max: 100 },
+    email: { max: 100 },
+    message: { min: 10, max: 1000 }
+  };
+  
+  // Validation function
+  const validateField = (name, value) => {
+    const newErrors = { ...errors };
+    
+    if (name === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+      newErrors.email = 'Please enter a valid email address';
+    } else if (name === 'email' && !value) {
+      newErrors.email = 'Email is required';
+    } else if (name === 'email' && value.length > limits.email.max) {
+      newErrors.email = `Email must be less than ${limits.email.max} characters`;
+    } else if (name === 'email') {
+      delete newErrors.email;
+    }
+    
+    if (name === 'name' && !value.trim()) {
+      newErrors.name = 'Name is required';
+    } else if (name === 'name' && value.length > limits.name.max) {
+      newErrors.name = `Name must be less than ${limits.name.max} characters`;
+    } else if (name === 'name') {
+      delete newErrors.name;
+    }
+    
+    if (name === 'message' && value.length < limits.message.min) {
+      newErrors.message = `Message must be at least ${limits.message.min} characters`;
+    } else if (name === 'message' && value.length > limits.message.max) {
+      newErrors.message = `Message must be less than ${limits.message.max} characters`;
+    } else if (name === 'message' && !value.trim()) {
+      newErrors.message = 'Message is required';
+    } else if (name === 'message') {
+      delete newErrors.message;
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const isFormValid = () => {
+    return (
+      formData.name &&
+      formData.email &&
+      formData.message &&
+      formData.name.length <= limits.name.max &&
+      formData.email.length <= limits.email.max &&
+      formData.message.length >= limits.message.min &&
+      formData.message.length <= limits.message.max &&
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)
+    );
+  };
   
   const socialLinks = [
     { name: 'GitHub', url: 'https://github.com/adityahacks123', icon: 'github' },
@@ -19,22 +78,79 @@ const Contact = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData(prev => {
+      const newData = {
+        ...prev,
+        [name]: value
+      };
+      
+      // Validate the field that changed
+      if (touched[name]) {
+        validateField(name, value);
+      }
+      
+      return newData;
+    });
+  };
+  
+  const handleBlur = (e) => {
+    const { name, value } = e.target;
+    setTouched(prev => ({
       ...prev,
-      [name]: value
+      [name]: true
     }));
+    validateField(name, value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Mark all fields as touched to show errors
+    const newTouched = {};
+    Object.keys(formData).forEach(key => {
+      newTouched[key] = true;
+    });
+    setTouched(newTouched);
+    
+    // Validate all fields
+    let isValid = true;
+    Object.entries(formData).forEach(([key, value]) => {
+      if (!validateField(key, value)) {
+        isValid = false;
+      }
+    });
+    
+    if (!isValid || !isFormValid()) {
+      return; // Don't submit if validation fails
+    }
+    
     setIsSubmitting(true);
-    // Simulate form submission
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
+    
+    try {
+      const response = await fetch('https://formspree.io/f/mvgwqrrk', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          message: formData.message.trim(),
+        }),
+      });
+      
+      if (response.ok) {
+        alert('Message sent successfully! I\'ll get back to you soon.');
+        setFormData({ name: '', email: '', message: '' });
+      } else {
+        throw new Error('Failed to send message');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Oops! Something went wrong. Please try again later or email me directly.');
+    } finally {
       setIsSubmitting(false);
-      alert('Message sent successfully!');
-      setFormData({ name: '', email: '', message: '' });
-    }, 1500);
+    }
   };
 
   const handleDownloadCV = () => {
@@ -71,45 +187,82 @@ const Contact = () => {
           
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                className="form-input"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="input-container">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Your Name"
+                  className={`form-input ${touched.name && errors.name ? 'error' : ''}`}
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  maxLength={limits.name.max}
+                  required
+                />
+                {touched.name && (
+                  <div className="input-helper">
+                    <span className={`char-count ${formData.name.length > limits.name.max * 0.8 ? 'warning' : ''}`}>
+                      {formData.name.length}/{limits.name.max}
+                    </span>
+                    {errors.name && <span className="error-message">{errors.name}</span>}
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="form-group">
-              <input
-                type="email"
-                name="email"
-                placeholder="Your Email"
-                className="form-input"
-                value={formData.email}
-                onChange={handleInputChange}
-                required
-              />
+              <div className="input-container">
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  className={`form-input ${touched.email && errors.email ? 'error' : ''}`}
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  maxLength={limits.email.max}
+                  required
+                />
+                {touched.email && (
+                  <div className="input-helper">
+                    <span className={`char-count ${formData.email.length > limits.email.max * 0.8 ? 'warning' : ''}`}>
+                      {formData.email.length}/{limits.email.max}
+                    </span>
+                    {errors.email && <span className="error-message">{errors.email}</span>}
+                  </div>
+                )}
+              </div>
             </div>
             
             <div className="form-group">
-              <textarea
-                name="message"
-                placeholder="Your Message"
-                rows="4"
-                className="form-textarea"
-                value={formData.message}
-                onChange={handleInputChange}
-                required
-              ></textarea>
+              <div className="input-container">
+                <textarea
+                  name="message"
+                  placeholder="Your Message"
+                  rows="4"
+                  className={`form-textarea ${touched.message && errors.message ? 'error' : ''}`}
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  onBlur={handleBlur}
+                  minLength={limits.message.min}
+                  maxLength={limits.message.max}
+                  required
+                ></textarea>
+                <div className="input-helper">
+                  <span className={`char-count ${formData.message.length > limits.message.max * 0.8 ? 'warning' : ''}`}>
+                    {formData.message.length}/{limits.message.max}
+                  </span>
+                  {touched.message && errors.message && (
+                    <span className="error-message">{errors.message}</span>
+                  )}
+                </div>
+              </div>
             </div>
             
             <button 
               type="submit" 
               className="submit-btn"
-              disabled={isSubmitting}
+              disabled={isSubmitting || !isFormValid()}
             >
               {isSubmitting ? (
                 <>
