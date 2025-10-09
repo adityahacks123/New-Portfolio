@@ -84,23 +84,29 @@ const Home = () => {
           
           <motion.div className="home-image" variants={itemVariants}>
             <div className="profile-image">
-              {/* Replace with your actual image */}
-              <div className="image-placeholder">
-                <span>Your Photo</span>
-              </div>
+              <img 
+                src="/WhatsApp Image 2025-10-09 at 5.50.39 PM copy.jpeg"
+                alt="Aditya Singh"
+                style={{ 
+                  width: '100%', 
+                  height: '100%', 
+                  objectFit: 'cover',
+                  borderRadius: '10px'
+                }}
+              />
             </div>
-            <div className="tech-stack">
+            {/* <div className="tech-stack">
               <span>React</span>
               <span>Node.js</span>
               <span>MongoDB</span>
-            </div>
+            </div> */}
           </motion.div>
         </div>
         
-        <motion.div className="scroll-indicator" variants={itemVariants}>
+        {/* <motion.div className="scroll-indicator" variants={itemVariants}>
           <span>Scroll Down</span>
           <div className="mouse"></div>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
     </section>
   );
