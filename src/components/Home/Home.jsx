@@ -59,7 +59,7 @@ const Home = () => {
             <h4>Hello, I'm</h4>
             <h1>Aditya Singh</h1>
             <h2>Full Stack Developer</h2>
-            <p>I'm a passionate developer who loves to create amazing web experiences. With a strong foundation in both frontend and backend technologies, I build applications that are both beautiful and functional.</p>
+            <p>I love creating web experiences that feel alive — fast, functional, and beautifully designed. With a strong grip on frontend and backend technologies, I turn ideas into real-world products that make an impact. I'm always exploring new tools, taking on new challenges, and pushing my limits to build something better every day.</p>
             
             <div className="cta-buttons">
               <motion.a 

@@ -37,16 +37,20 @@ const Landing = ({ onEnterPortfolio }) => {
           marginBottom: '2rem',
           fontWeight: 400
         }}>
-          Full Stack Developer
+          Full Stack Developer | Problem Solver | Tech Enthusiast
         </h2>
         
         <p style={{
           fontSize: '1.2rem',
           color: '#c0c0c0',
           marginBottom: '3rem',
-          lineHeight: 1.6
+          lineHeight: 1.6,
+          maxWidth: '800px',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          padding: '0 20px'
         }}>
-          I build exceptional digital experiences with modern web technologies
+          I build experiences, not just websites. I'm a Full Stack Developer who blends design, logic, and creativity to bring ideas to life. From interactive front-ends to powerful back-ends, I create smooth, story-driven digital experiences that connect with people and perform flawlessly.
         </p>
         
         <div style={{
