@@ -3,11 +3,11 @@ import './Projects.css';
 const Projects = () => {
   const projects = [
     {
-      title: "E-Commerce Platform",
-      description: "A full-stack e-commerce solution with React, Node.js, and MongoDB. Features include user authentication, payment integration, and admin dashboard.",
-      techStack: ["React", "Node.js", "MongoDB", "Stripe"],
+      title: "Student Management System",
+      description: "Developed a role-based web platform for students, faculty, and admins to manage academic data, attendance, and achievements. Integrated AI-driven analytics for performance tracking, portfolio generation, and automated report management.",
+      techStack: ["React", "Node.js", "MongoDB","Express","Tailwind CSS","Docker"],
       liveLink: "#",
-      githubLink: "#"
+      githubLink: "https://github.com/adityahacks123/Student-Hub"
     },
     {
       title: "Task Management App",
