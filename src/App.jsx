@@ -6,8 +6,10 @@ import Skills from './components/Skills/Skills';
 import Socials from './components/Socials/Socials';
 import Contact from './components/Contact/Contact';
 import Navigation from './components/Navigation/Navigation';
+import CometCursor from './components/CometCursor/CometCursor';
 import './styles/global.css';
 import './App.css';
+import './styles/CometCursor.css';
 
 // Debug
 console.log('App component is loading...');
@@ -114,12 +116,31 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [activeSection, scrollToSection]);
 
+  // Add clickable class to clickable elements when not on landing page
+  useEffect(() => {
+    if (!showLanding && typeof document !== 'undefined') {
+      // Add clickable class to all clickable elements
+      const clickableElements = document.querySelectorAll('a, button, [role="button"], [onclick]');
+      clickableElements.forEach(el => {
+        el.classList.add('clickable');
+      });
+      
+      // Add clickable class to all form inputs
+      const formElements = document.querySelectorAll('input, textarea, [contenteditable]');
+      formElements.forEach(el => {
+        el.classList.add('clickable');
+      });
+    }
+  }, [showLanding]);
+
   if (showLanding) {
     return <Landing onEnterPortfolio={handleEnterPortfolio} />;
   }
 
   return (
     <div className="app" ref={mainRef}>
+      <CometCursor />
+      
       {/* Navigation */}
       <Navigation activeSection={activeSection} scrollToSection={scrollToSection} />
       
