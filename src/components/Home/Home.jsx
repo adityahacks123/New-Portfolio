@@ -84,7 +84,12 @@ const Home = () => {
             </div>
           </motion.div>
           
-          <motion.div className="home-image" variants={itemVariants}>
+          <motion.div 
+            className="home-image" 
+            variants={itemVariants}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={controls}
+          >
             <div className="profile-image">
               <img 
                 src="/WhatsApp Image 2025-10-09 at 5.50.39 PM copy.jpeg"
@@ -93,9 +98,11 @@ const Home = () => {
                   width: '100%', 
                   height: '100%', 
                   objectFit: 'cover',
-                  borderRadius: '10px'
+                  transition: 'transform 0.5s ease'
                 }}
               />
+              <div className="profile-overlay"></div>
+              <div className="profile-border"></div>
             </div>
             {/* <div className="tech-stack">
               <span>React</span>
