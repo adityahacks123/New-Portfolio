@@ -1,18 +1,17 @@
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Landing from './components/Landing/Landing';
 import Home from './components/Home/Home';
-import Projects from './components/Projects/Projects';
-import Skills from './components/Skills/Skills';
-import Socials from './components/Socials/Socials';
-import Contact from './components/Contact/Contact';
+const Projects = lazy(() => import('./components/Projects/Projects'));
+const Skills = lazy(() => import('./components/Skills/Skills'));
+const Socials = lazy(() => import('./components/Socials/Socials'));
+const Contact = lazy(() => import('./components/Contact/Contact'));
 import Navigation from './components/Navigation/Navigation';
 import CometCursor from './components/CometCursor/CometCursor';
 import './styles/global.css';
 import './App.css';
 import './styles/CometCursor.css';
 
-// Debug
-console.log('App component is loading...');
 
 function App() {
   const [showLanding, setShowLanding] = useState(true);
@@ -20,118 +19,22 @@ function App() {
   const mainRef = useRef(null);
   const isScrolling = useRef(false);
   const scrollTimeout = useRef(null);
+  const navigate = useNavigate();
 
-  // Debug
-  console.log('App component rendering, showLanding:', showLanding);
 
-  // Handle enter portfolio from landing page
+  // Remove scroll-based section detection since routing controls views
+
+  // Remove scrollToSection; routing will handle navigation
+
+  // Remove arrow key scroll navigation; use routing
+
   const handleEnterPortfolio = () => {
-    console.log('Enter portfolio clicked');
     setShowLanding(false);
     document.body.style.overflow = 'auto';
+    navigate('/');
   };
 
-  // Handle scroll events for section detection
-  useEffect(() => {
-    const handleScroll = () => {
-      if (isScrolling.current) return;
-
-      const scrollPosition = window.scrollY + 100;
-      const sections = ['home', 'projects', 'skills', 'socials', 'contact'];
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          const elementTop = rect.top + window.pageYOffset;
-          const elementBottom = elementTop + rect.height;
-          
-          if (scrollPosition >= elementTop - 200 && scrollPosition < elementBottom - 200) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-    
-    // Add scroll event listener
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    
-    // Initial check
-    handleScroll();
-    
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
-  // Smooth scroll to section with callback
-  const scrollToSection = useCallback((sectionId) => {
-    if (isScrolling.current) return;
-    
-    const element = document.getElementById(sectionId);
-    if (element) {
-      isScrolling.current = true;
-      setActiveSection(sectionId);
-      
-      // Close mobile menu if open
-      document.body.classList.remove('menu-open');
-      
-      // Scroll to the element
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
-      
-      if (scrollTimeout.current) {
-        clearTimeout(scrollTimeout.current);
-      }
-      
-      scrollTimeout.current = setTimeout(() => {
-        isScrolling.current = false;
-      }, 1000);
-    }
-  }, []);
-
-  // Handle keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        
-        if (isScrolling.current) return;
-        
-        const sections = ['home', 'projects', 'skills', 'socials', 'contact'];
-        const currentIndex = sections.indexOf(activeSection);
-        
-        if (e.key === 'ArrowDown' && currentIndex < sections.length - 1) {
-          scrollToSection(sections[currentIndex + 1]);
-        } else if (e.key === 'ArrowUp' && currentIndex > 0) {
-          scrollToSection(sections[currentIndex - 1]);
-        }
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activeSection, scrollToSection]);
-
-  // Add clickable class to clickable elements when not on landing page
-  useEffect(() => {
-    if (!showLanding && typeof document !== 'undefined') {
-      // Add clickable class to all clickable elements
-      const clickableElements = document.querySelectorAll('a, button, [role="button"], [onclick]');
-      clickableElements.forEach(el => {
-        el.classList.add('clickable');
-      });
-      
-      // Add clickable class to all form inputs
-      const formElements = document.querySelectorAll('input, textarea, [contenteditable]');
-      formElements.forEach(el => {
-        el.classList.add('clickable');
-      });
-    }
-  }, [showLanding]);
+  // Removed global clickable class side effect for cleaner semantics
 
   if (showLanding) {
     return <Landing onEnterPortfolio={handleEnterPortfolio} />;
@@ -140,31 +43,15 @@ function App() {
   return (
     <div className="app" ref={mainRef}>
       <CometCursor />
-      
-      {/* Navigation */}
-      <Navigation activeSection={activeSection} scrollToSection={scrollToSection} />
-      
-      <div className="smooth-scroll">
-        <section id="home" className="section">
-          <Home />
-        </section>
-        
-        <section id="projects" className="section">
-          <Projects />
-        </section>
-        
-        <section id="skills" className="section">
-          <Skills />
-        </section>
-        
-        <section id="socials" className="section">
-          <Socials />
-        </section>
-        
-        <section id="contact" className="section">
-          <Contact />
-        </section>
-      </div>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/projects" element={<Suspense fallback={<div />}> <Projects /> </Suspense>} />
+        <Route path="/skills" element={<Suspense fallback={<div />}> <Skills /> </Suspense>} />
+        <Route path="/socials" element={<Suspense fallback={<div />}> <Socials /> </Suspense>} />
+        <Route path="/contact" element={<Suspense fallback={<div />}> <Contact /> </Suspense>} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </div>
   );
 }

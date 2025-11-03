@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { NavLink, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
 // Simple SVG Icons
@@ -23,6 +24,7 @@ const Navigation = ({ activeSection, scrollToSection }) => {
   const [isMobile, setIsMobile] = useState(false);
   // Remove unused state
   const navRef = useRef(null);
+  const location = useLocation();
 
   useEffect(() => {
     const checkIfMobile = () => {
@@ -42,34 +44,19 @@ const Navigation = ({ activeSection, scrollToSection }) => {
     document.body.style.overflow = isOpen ? 'auto' : 'hidden';
   };
 
-  const handleNavClick = (e, section) => {
-    e.preventDefault();
-    // Remove scrolling check
-    
-    // Close mobile menu if open
+  const handleAfterNav = () => {
     if (isMobile) {
       setIsOpen(false);
       document.body.style.overflow = 'auto';
     }
-    
-    // Use the scrollToSection function from props
-    if (scrollToSection) {
-      scrollToSection(section);
-    } else {
-      // Fallback in case scrollToSection is not provided
-      const element = document.getElementById(section);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }
   };
 
   const navItems = [
-    { id: 'home', label: 'Home' },
-    { id: 'projects', label: 'Projects' },
-    { id: 'skills', label: 'Skills' },
-    { id: 'socials', label: 'Socials' },
-    { id: 'contact', label: 'Contact' },
+    { id: 'home', label: 'Home', to: '/' },
+    { id: 'projects', label: 'Projects', to: '/projects' },
+    { id: 'skills', label: 'Skills', to: '/skills' },
+    { id: 'socials', label: 'Socials', to: '/socials' },
+    { id: 'contact', label: 'Contact', to: '/contact' },
   ];
 
   return (
@@ -105,13 +92,14 @@ const Navigation = ({ activeSection, scrollToSection }) => {
         <ul>
           {navItems.map((item) => (
             <li key={item.id}>
-              <a
-                href={`#${item.id}`}
-                className={`nav-link ${activeSection === item.id ? 'active' : ''}`}
-                onClick={(e) => handleNavClick(e, item.id)}
+              <NavLink
+                to={item.to}
+                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
+                aria-current={location.pathname === item.to ? 'page' : undefined}
+                onClick={handleAfterNav}
               >
                 {item.label}
-              </a>
+              </NavLink>
             </li>
           ))}
         </ul>

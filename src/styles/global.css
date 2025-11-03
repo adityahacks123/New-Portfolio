@@ -27,6 +27,23 @@ body, html {
   box-sizing: border-box;
 }
 
+/* Skip link */
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 0;
+  background: #0a0a0f;
+  color: #fff;
+  padding: 8px 12px;
+  border: 1px solid #667eea;
+  border-radius: 6px;
+  z-index: 1000;
+}
+
+.skip-link:focus {
+  left: 8px;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
@@ -48,4 +65,10 @@ html {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #764ba2;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation: none !important; transition: none !important; }
 }
