@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
+import { AnimatePresence, motion } from 'framer-motion';
 import Landing from './components/Landing/Landing';
 import Home from './components/Home/Home';
 import AllSections from './components/All/AllSections';
+import ScrollToHash from './components/common/ScrollToHash';
 const Projects = lazy(() => import('./components/Projects/Projects'));
 const Skills = lazy(() => import('./components/Skills/Skills'));
 const Socials = lazy(() => import('./components/Socials/Socials'));
@@ -21,6 +23,7 @@ function App() {
   const isScrolling = useRef(false);
   const scrollTimeout = useRef(null);
   const navigate = useNavigate();
+  const location = useLocation();
 
 
   // Remove scroll-based section detection since routing controls views
@@ -45,14 +48,25 @@ function App() {
     <div className="app" ref={mainRef}>
       <CometCursor />
       <Navigation />
-      <Routes>
-        <Route path="/" element={<AllSections />} />
-        <Route path="/projects" element={<Suspense fallback={<div />}> <Projects /> </Suspense>} />
-        <Route path="/skills" element={<Suspense fallback={<div />}> <Skills /> </Suspense>} />
-        <Route path="/socials" element={<Suspense fallback={<div />}> <Socials /> </Suspense>} />
-        <Route path="/contact" element={<Suspense fallback={<div />}> <Contact /> </Suspense>} />
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <ScrollToHash />
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={location.pathname}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+        >
+          <Routes location={location}>
+            <Route path="/" element={<AllSections />} />
+            <Route path="/projects" element={<Suspense fallback={<div />}> <Projects /> </Suspense>} />
+            <Route path="/skills" element={<Suspense fallback={<div />}> <Skills /> </Suspense>} />
+            <Route path="/socials" element={<Suspense fallback={<div />}> <Socials /> </Suspense>} />
+            <Route path="/contact" element={<Suspense fallback={<div />}> <Contact /> </Suspense>} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }
