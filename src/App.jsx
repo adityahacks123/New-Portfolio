@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, useCallback, lazy, Suspense } from 'react'
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import Landing from './components/Landing/Landing';
 import Home from './components/Home/Home';
+import AllSections from './components/All/AllSections';
 const Projects = lazy(() => import('./components/Projects/Projects'));
 const Skills = lazy(() => import('./components/Skills/Skills'));
 const Socials = lazy(() => import('./components/Socials/Socials'));
@@ -45,7 +46,7 @@ function App() {
       <CometCursor />
       <Navigation />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<AllSections />} />
         <Route path="/projects" element={<Suspense fallback={<div />}> <Projects /> </Suspense>} />
         <Route path="/skills" element={<Suspense fallback={<div />}> <Skills /> </Suspense>} />
         <Route path="/socials" element={<Suspense fallback={<div />}> <Socials /> </Suspense>} />

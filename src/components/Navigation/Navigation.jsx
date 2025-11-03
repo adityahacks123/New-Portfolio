@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { NavLink, useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './Navigation.css';
 
 // Simple SVG Icons
@@ -52,11 +52,11 @@ const Navigation = ({ activeSection, scrollToSection }) => {
   };
 
   const navItems = [
-    { id: 'home', label: 'Home', to: '/' },
-    { id: 'projects', label: 'Projects', to: '/projects' },
-    { id: 'skills', label: 'Skills', to: '/skills' },
-    { id: 'socials', label: 'Socials', to: '/socials' },
-    { id: 'contact', label: 'Contact', to: '/contact' },
+    { id: 'home', label: 'Home', to: '/#home' },
+    { id: 'projects', label: 'Projects', to: '/#projects' },
+    { id: 'skills', label: 'Skills', to: '/#skills' },
+    { id: 'socials', label: 'Socials', to: '/#socials' },
+    { id: 'contact', label: 'Contact', to: '/#contact' },
   ];
 
   return (
@@ -92,14 +92,14 @@ const Navigation = ({ activeSection, scrollToSection }) => {
         <ul>
           {navItems.map((item) => (
             <li key={item.id}>
-              <NavLink
+              <Link
                 to={item.to}
-                className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`}
-                aria-current={location.pathname === item.to ? 'page' : undefined}
+                className={`nav-link ${(location.hash === '#' + item.id) || (location.pathname === '/' && !location.hash && item.id === 'home') ? 'active' : ''}`}
+                aria-current={(location.hash === '#' + item.id) ? 'page' : undefined}
                 onClick={handleAfterNav}
               >
                 {item.label}
-              </NavLink>
+              </Link>
             </li>
           ))}
         </ul>
