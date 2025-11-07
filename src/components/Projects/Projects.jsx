@@ -10,11 +10,11 @@ const Projects = () => {
       githubLink: "https://github.com/adityahacks123/Student-Hub"
     },
     {
-      title: "Task Management App",
-      description: "A collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-      techStack: ["Next.js", "TypeScript", "Tailwind", "Socket.io"],
+      title: "CodeWars",
+      description: "A competitive coding platform where users can solve programming challenges, track their progress with detailed statistics, and engage in 1v1 battles with peers. Features include real-time leaderboards, problem difficulty levels, and comprehensive performance analytics.",
+      techStack: ["JavaScript", "React", "Node.js", "Express", "MongoDB"],
       liveLink: "#",
-      githubLink: "#"
+      githubLink: "https://github.com/adityahacks123/CodeWars"
     },
     {
       title: "Weather Dashboard",
