@@ -185,6 +185,24 @@ const Contact = () => {
           <h2>Let's Connect</h2>
           <p>Feel free to reach out for collaborations or just a friendly hello!</p>
           
+          {/* Contact Info */}
+          <div className="contact-info">
+            <a href="tel:+919569595568" className="contact-info-item">
+              <i className="fas fa-phone"></i>
+              <div className="contact-info-text">
+                <span className="contact-label">Phone Number</span>
+                <span className="contact-value">+91 9569595568</span>
+              </div>
+            </a>
+            <a href="mailto:adityasingh30112020@gmail.com" className="contact-info-item">
+              <i className="fas fa-envelope"></i>
+              <div className="contact-info-text">
+                <span className="contact-label">Email Address</span>
+                <span className="contact-value">adityasingh30112020@gmail.com</span>
+              </div>
+            </a>
+          </div>
+          
           <form className="contact-form" onSubmit={handleSubmit}>
             <div className="form-group">
               <div className="input-container">
