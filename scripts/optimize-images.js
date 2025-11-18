@@ -92,6 +92,13 @@ async function processDirectory(dir, outputDir) {
 async function main() {
   try {
     console.log('Starting image optimization...');
+    
+    // Check if images directory exists
+    if (!fs.existsSync(IMG_DIR)) {
+      console.log(`No images directory found at ${IMG_DIR}. Skipping optimization.`);
+      return;
+    }
+    
     await ensureDir(OUTPUT_DIR);
     await processDirectory(IMG_DIR, OUTPUT_DIR);
     console.log('Image optimization complete!');
