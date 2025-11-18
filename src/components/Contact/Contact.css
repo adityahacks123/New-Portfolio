@@ -5,7 +5,7 @@
   padding: 4rem 2rem;
   display: flex;
   align-items: center;
-  background: linear-gradient(135deg, #0a0a0f 0%, #0f0f1a 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, var(--bg-00) 0%, var(--bg-01) 50%, var(--bg-02) 100%);
   position: relative;
   overflow: hidden;
 }
@@ -683,24 +683,51 @@
   .connect-grid {
     grid-template-columns: 1fr;
     max-width: 800px;
+    padding: 2.5rem;
   }
   
   .resume-section {
     max-height: none;
   }
+
+  .contact-section h2 {
+    font-size: 2.4rem;
+  }
+
+  .cv-card {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+  .lets-connect {
+    padding: 2.5rem 1rem;
+  }
+
+  .connect-grid {
+    gap: 2rem;
+  }
 }
 
 @media (max-width: 768px) {
   .lets-connect {
-    padding: 1rem;
+    padding: 2rem 1rem;
   }
   
   .connect-grid {
+    grid-template-columns: 1fr;
     padding: 1.5rem;
+    gap: 1.5rem;
+    border-radius: 12px;
   }
   
   .contact-section h2 {
     font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .contact-section p {
+    font-size: 0.95rem;
   }
   
   .contact-info {
@@ -724,27 +751,134 @@
   .contact-value {
     font-size: 0.9rem;
   }
-  
-  .resume-tabs {
-    flex-direction: column;
+
+  .form-input,
+  .form-textarea {
+    font-size: 0.95rem;
   }
-  
-  .tab-btn {
-    width: 100%;
+
+  .submit-btn {
+    padding: 0.95rem 1.5rem;
+  }
+
+  .cv-card {
+    padding: 2rem;
+    max-width: 100%;
+  }
+
+  .cv-icon {
+    font-size: 3rem;
+  }
+
+  .download-cv-btn {
+    padding: 0.9rem 1.5rem;
   }
 }
 
 @media (max-width: 576px) {
-  .contact-content {
+  .lets-connect {
+    padding: 1.5rem 0.75rem;
+  }
+
+  .connect-grid {
+    padding: 1rem;
+    gap: 1.25rem;
+  }
+
+  .contact-section h2 {
+    font-size: 1.8rem;
+  }
+
+  .contact-section p {
+    font-size: 0.9rem;
+  }
+
+  .contact-info-item {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 0.7rem 0.7rem 0.7rem 2.3rem;
+    font-size: 0.9rem;
+  }
+
+  .submit-btn {
+    padding: 0.8rem 1.25rem;
+    font-size: 0.95rem;
+  }
+
+  .cv-card {
     padding: 1.5rem;
   }
-  
-  .contact-header h2 {
+
+  .cv-icon {
+    font-size: 2.5rem;
+  }
+
+  .cv-card h3 {
+    font-size: 1.3rem;
+  }
+
+  .download-cv-btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .lets-connect {
+    padding: 1rem 0.5rem;
+  }
+
+  .connect-grid {
+    padding: 0.75rem;
+    gap: 1rem;
+  }
+
+  .contact-section h2 {
+    font-size: 1.5rem;
+  }
+
+  .contact-info {
+    padding: 0.5rem;
+  }
+
+  .contact-info-item {
+    padding: 0.5rem 0.6rem;
+  }
+
+  .contact-info-item i {
+    font-size: 1rem;
+  }
+
+  .form-input,
+  .form-textarea {
+    padding: 0.6rem 0.6rem 0.6rem 2.1rem;
+    font-size: 0.85rem;
+  }
+
+  .submit-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .cv-card {
+    padding: 1.25rem;
+  }
+
+  .cv-icon {
     font-size: 2.2rem;
   }
-  
-  .contact-header p {
-    font-size: 1rem;
+
+  .cv-card h3 {
+    font-size: 1.2rem;
+  }
+
+  .download-cv-btn {
+    padding: 0.7rem 1rem;
+    font-size: 0.85rem;
   }
 }
 }

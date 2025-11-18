@@ -13,6 +13,15 @@
   --text-secondary: #a0a0a0;
   --text-tertiary: #c0c0c0;
   --border-color: rgba(255, 255, 255, 0.1);
+
+  /* Unified palette additions */
+  --bg-00: #0f1724; /* deepest */
+  --bg-01: #121827; /* dark */
+  --bg-02: #1b2236; /* mid */
+  --accent-primary: #6C63FF; /* purple */
+  --accent-secondary: #3B82F6; /* blue */
+  --muted: #9CA3AF; /* greyish text */
+  --glass: rgba(26, 26, 46, 0.5);
 }
 
 html, body {
@@ -79,6 +88,11 @@ button {
   align-items: center;
   justify-content: center;
   position: relative;
+}
+
+/* Add a subtle separator between adjacent sections so gradients/overlays don't visually merge */
+section + section {
+  border-top: 1px solid rgba(255,255,255,0.03);
 }
 
 /* Scrollbar */

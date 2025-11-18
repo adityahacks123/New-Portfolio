@@ -93,3 +93,9 @@
     padding: 1.5rem;
   }
 }
+
+@media (max-width: 360px) {
+  .socials-grid { padding: 0 1rem; gap: 1rem; }
+  .social-card { padding: 1.25rem; }
+  .social-name { font-size: 1.2rem; }
+}

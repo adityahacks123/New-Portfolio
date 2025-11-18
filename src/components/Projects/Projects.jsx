@@ -1,4 +1,5 @@
 import './Projects.css';
+import { motion } from 'framer-motion';
 
 const Projects = () => {
   const projects = [
@@ -25,13 +26,39 @@ const Projects = () => {
     }
   ];
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.12, delayChildren: 0.05 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 24 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } }
+  };
+
   return (
     <section id="projects" className="projects-section">
       <div className="projects-container">
         <h2 className="section-title">My Projects</h2>
-        <div className="projects-grid">
+        <motion.div 
+          className="projects-grid"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
+        >
           {projects.map((project, index) => (
-            <article key={index} className="project-card">
+            <motion.article 
+              key={index} 
+              className="project-card"
+              variants={cardVariants}
+              whileHover={{ y: -4 }}
+              transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+            >
               <div className="card-content">
                 <h3 className="project-title">{project.title}</h3>
                 <p className="project-description">{project.description}</p>
@@ -41,27 +68,31 @@ const Projects = () => {
                   ))}
                 </div>
                 <div className="project-actions">
-                  <a 
-                    href={project.liveLink} 
-                    className="project-link primary"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Live Demo
-                  </a>
-                  <a 
-                    href={project.githubLink} 
-                    className="project-link secondary"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    GitHub
-                  </a>
+                  {project.liveLink && project.liveLink !== "#" ? (
+                    <a 
+                      href={project.liveLink} 
+                      className="project-link primary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Live Demo
+                    </a>
+                  ) : null}
+                  {project.githubLink && project.githubLink !== "#" ? (
+                    <a 
+                      href={project.githubLink} 
+                      className="project-link secondary"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      GitHub
+                    </a>
+                  ) : null}
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

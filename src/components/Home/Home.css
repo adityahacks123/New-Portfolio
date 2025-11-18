@@ -437,15 +437,43 @@
     margin: 0 auto;
     max-width: 100%;
   }
+
+  .profile-image {
+    width: 280px;
+    height: 280px;
+  }
 }
 
 @media (max-width: 768px) {
+  .home-page {
+    padding: 1.5rem 1rem;
+    min-height: 100vh;
+  }
+
+  .home-container {
+    padding: 1rem;
+  }
+
+  .home-content {
+    gap: 2rem;
+  }
+
   .home-text h1 {
-    font-size: clamp(2rem, 8vw, 2.8rem);
+    font-size: clamp(1.8rem, 6vw, 2.5rem);
   }
   
   .home-text h2 {
-    font-size: 1.5rem;
+    font-size: 1.3rem;
+  }
+
+  .home-text h4 {
+    font-size: 1rem;
+  }
+  
+  .home-text p {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    max-width: 100%;
   }
   
   .cta-buttons {
@@ -455,32 +483,48 @@
   
   .cta-buttons .btn {
     width: 100%;
-    max-width: 300px;
-    margin: 0 auto;
+    max-width: 100%;
+    padding: 0.9rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .profile-image {
+    width: 240px;
+    height: 240px;
+  }
+
+  .about-text .highlight {
+    white-space: normal;
   }
 }
 
 @media (max-width: 480px) {
   .home-page {
-    padding: 1rem;
+    padding: 1rem 0.75rem;
+    min-height: auto;
   }
   
   .home-container {
-    padding: 1rem;
+    padding: 0.75rem;
   }
   
   .home-text h1 {
-    font-size: 2rem;
-    margin: 0.5em 0;
+    font-size: clamp(1.5rem, 5vw, 2rem);
   }
   
   .home-text h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .home-text h4 {
+    font-size: 0.9rem;
   }
   
   .home-text p {
-    font-size: 1rem;
-    line-height: 1.6;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin: 1rem 0 1.5rem;
   }
   
   .social-links {
@@ -488,20 +532,64 @@
     margin-top: 1.5rem;
   }
   
-  .home-text h2 {
-    font-size: 1.3rem;
-  }
-  
-  .home-text p {
-    font-size: 1rem;
-  }
-  
   .profile-image {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .cta-buttons {
+    gap: 0.8rem;
+    width: 100%;
+  }
+
+  .cta-buttons .btn {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+    width: 100%;
   }
   
   .scroll-indicator {
     display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-page {
+    padding: 0.75rem;
+  }
+
+  .home-container {
+    padding: 0.5rem;
+  }
+
+  .home-content {
+    gap: 1.5rem;
+  }
+
+  .home-text h1 {
+    font-size: 1.5rem;
+  }
+
+  .home-text h2 {
+    font-size: 1rem;
+  }
+
+  .home-text p {
+    font-size: 0.85rem;
+  }
+
+  .profile-image {
+    width: 160px;
+    height: 160px;
+  }
+
+  .cta-buttons {
+    gap: 0.6rem;
+  }
+
+  .cta-buttons .btn {
+    font-size: 0.85rem;
+    padding: 0.65rem 1rem;
   }
 }

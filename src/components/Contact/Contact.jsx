@@ -159,12 +159,12 @@ const Contact = () => {
     // Create a temporary link element
     const link = document.createElement('a');
     
-    // Replace this path with the actual path to your CV file in the public folder
-    const cvPath = '/Aditya_Singh_Resume.pdf'; // Make sure the file exists in the public folder
-    
-    // Set the link's properties
-    link.href = cvPath;
-    link.download = 'Aditya_Singh_Resume.pdf'; // Name of the downloaded file
+  // Path to the CV file in the public folder (unified filename)
+  const cvPath = '/resume.pdf'; // Make sure the file exists in the public folder
+
+  // Set the link's properties
+  link.href = cvPath;
+  link.download = 'Aditya_Singh_Resume.pdf'; // Download will save as this filename
     
     // Append to body, click and remove
     document.body.appendChild(link);
@@ -318,7 +318,7 @@ const Contact = () => {
             <p>Get a copy of my professional resume in PDF format</p>
             <div className="file-info">
               <i className="fas fa-file-pdf"></i>
-              <span>Aditya_Singh_Resume.pdf</span>
+              <span>resume.pdf</span>
               <span className="file-size">(2.4 MB)</span>
             </div>
             <button 
